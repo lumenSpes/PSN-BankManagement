@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "LoanProc";
+    Layout = "~/Views/Shared/_MyLayoutDash.cshtml";
+}
+
+<h1>Loan Application</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Amount</th>
+            <th scope="col">Period</th>
+            <th scope="col">Processing Fee</th>
+            <th scope="col">Received Ammount</th>
+            <th scope="col">Interest Rate</th>
+            <th scope="col">Total Payable Amount</th>
+            <th scope="col">Monthly Returnable</th>
+            <th scope="col">Loan Type</th>
+            <th scope="col">Yearly Income</th>
+            <th scope="col">Application Date</th>
+            <th scope="col">Status</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Amount</td>
+                <td>@item.Period</td>
+                <td>@item.ProcessingFee</td>
+                <td>@item.ReceivedAmmount</td>
+                <td>@item.InterestRate</td>
+                <td>@item.TotalPayableAmount</td>
+                <td>@item.MonthlyReturnable</td>
+                <td>@item.LoanType</td>
+                <td>@item.YearlyIncome</td>
+                <td>@item.ApplicationDate</td>
+                <td>@item.Status</td>
+                <td>@item.Phone</td>
+                <td>
+                    <a class="btn btn-primary" href="loanprocaction/Approved/@item.Id">Approve</a>
+                    <a class="btn btn-danger" href="loanprocaction/Rejected/@item.Id">Reject</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

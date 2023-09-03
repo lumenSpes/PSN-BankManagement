@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewData["Title"] = "Deposite";
+    Layout = "~/Views/Shared/_MyLayoutDash.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>PSN Bank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+
+</head>
+
+<body>
+
+    <form class="form-horizontal auth-form" id="Deposite">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Deposite</h4>
+
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Account No</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" required type="text" value="" id="AccoutNo" name="ToBankAccNumber">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Ammount</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" required type="text" value="" id="Ammount" name="TransAmount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ModalShow">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3 row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-primary" id="open-modal">Done</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+        </div><!--end row-->
+    </form>
+
+    @*
+    <table class="table">
+    <thead>
+    <tr>
+    <th scope="col">Account No</th>
+    <th scope="col">Amount</th>
+    <th scope="col">Deposit Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+    <tr>
+    <td>@item.AccountNo</td>
+    <td>@item.Amount</td>
+    <td>@item.DepositeDate</td>
+    </tr>
+    }
+    </tbody>
+    *@
+
+    @section Scripts
+        {
+        <script src="~/myLib/Layout/assets/js/jquery.min.js"></script>
+        <script src="~/bms/trans/transc.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                var model = {};
+                
+                $("#open-modal").click(function (e) { // Fixed syntax here
+                    //e.preventDefault();
+                    const AccoutNo = $("#AccoutNo").val();
+                    const AmmountVal = $("#Ammount").val();
+
+                    const modalContent = `
+                            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Related Information</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                                <p> Deposit Account: ${AccoutNo}</p>
+                                                <p> Deposit Amount: ${AmmountVal}</p>
+
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Procede</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">OTP Verification</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="mb-3 row">
+                                            <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Enter OTP</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" required type="number" value="" id="" name="">
+                                            </div>
+                                        </div>
+
+                                      </div>
+                                      <div class="modal-footer">
+                                                    <button id="submit" type="submit" class="btn btn-primary"> Procced </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+            `;
+
+                    $("#ModalShow").html(modalContent);
+
+                    const modal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
+                    modal.show();
+
+                    $("#submit").click(function (e) {
+                        debugger;
+                        e.preventDefault();
+                        model = $('#Deposite').serialize();
+                        console.log(model);
+                        $.post("/deposite", model, function (data) {
+                            debugger;
+
+                            if (data.success) {
+
+                                alert(data.message);
+                                window.location.href = "/deposite";
+                            }
+                            else {
+                                alert(data.message);
+                            }
+                            //window.location.href = "home/index";
+                        });
+                        //window.location.reload();
+
+
+                    });
+                });
+
+            });
+        </script>
+    }
+</body>
+
+
+

@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "FDHistory";
+    Layout = "~/Views/Shared/_MyLayoutDash.cshtml";
+}
+
+<h1>FDHistory</h1>
+
+<table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <thead>
+        <tr>
+            <th>Debit Account</th>
+            <th>FD Account</th>
+            <th>Amount Invested</th>
+            <th>Period</th>
+            <th>Interest Payout</th>
+            <th>Interest Rate</th>
+            <th>Maturity Date</th>
+            <th>Maturity Amount</th>
+            <th>Nominee Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.DebitAcc</td>
+                <td>@item.FDAccNo</td>
+                <td>@item.InvestAmount</td>
+                <td>@item.Period</td>
+                <td>@item.InterestPayout</td>
+                <td>@item.InterestRate * 100</td>
+                <td>@item.MaturityDate.ToString("dd MMMM yyyy hh:mm tt")</td>
+                <td>@item.MaturityAmount</td>
+                <td>@item.NomineeName</td>
+            </tr>
+        }
+    </tbody>
+</table>

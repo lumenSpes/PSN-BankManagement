@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewData["Title"] = "Loan";
+    Layout = "~/Views/Shared/_MyLayoutDash.cshtml";
+}
+
+<h1>Loan</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+
+</head>
+
+<body>
+
+    <form class="form-horizontal auth-form" id="loan">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Loan</h4>
+
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Amount</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" required type="text" value="" id="Amount" name="Amount">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Period (In Months)</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" required type="number" value="" id="Period" name="Period">
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Phone</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" required type="text" value="" id="Phone" name="Phone">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Loan Type</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="LoanType" id="PersonalType" value="Personal" checked>
+                                        <label class="form-check-label" for="LoanType">
+                                            Personal Loan
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="LoanType" id="BuisnessType" value="Buisness">
+                                        <label class="form-check-label" for="LoanType">
+                                            Buisness Loan
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Yearly Income</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" required type="text" value="" id="YearlyIncome" name="YearlyIncome">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="ModalShow">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3 row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-primary" id="open-modal">Done</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+        </div><!--end row-->
+    </form>
+
+    <div id="ModalShow">
+    </div>
+
+    @section Scripts
+        {
+        <script src="~/myLib/Layout/assets/js/jquery.min.js"></script>
+        <script src="~/bms/trans/transc.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+
+                var model = {};
+
+                $("#open-modal").click(function (e) { // Fixed syntax here
+                    //e.preventDefault();
+                    const Amount = parseFloat($("#Amount").val());
+                    const Period = parseInt($("#Period").val());
+                    const LoanType = $("input[name='LoanType']:checked").val();
+                    const YearlyIncome = parseFloat($("#YearlyIncome").val());
+                    const Phone = $('#Phone').val();
+                    const currentDate = new Date();
+
+                    const year = currentDate.getFullYear();
+                    const month = currentDate.getMonth() + 1;
+                    const day = currentDate.getDate();
+
+                    const fee = Amount * 0.005;
+                    const interestRate = 0.09; // Changed to a decimal value
+                    const ninstallment = month + Period; // Modified calculation
+                    const tpa = Amount + (Amount * interestRate);
+                    const installment = tpa / Period;
+
+                    const modalContent = `
+                            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Related Information</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <p> Amount: ${Amount}</p>
+                                        <p> Period: ${Period}</p>
+                                        <p> Loan Type: ${LoanType}</p>
+                                        <p> Yearly Income: ${YearlyIncome}</p>
+                                        <p> Phone Number: ${Phone}</p>
+                                        <b class="text-center">After your loan is processed</b>
+                                        <p> Next estimated installment: ${day}-${ninstallment}-${year}</p>
+                                        <p> Bank Fee: ${fee}</p>
+                                        <p> Interest Rate: ${interestRate}</p>
+                                        <p> Total Payable Amount: ${tpa}</p>
+                                        <p> Monthly Installment: ${installment}</p>
+
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Procede</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">OTP Verification</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="mb-3 row">
+                                            <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Enter OTP</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" required type="number" value="" id="" name="">
+                                            </div>
+                                        </div>
+
+                                      </div>
+                                      <div class="modal-footer">
+                                                    <button id="submit" type="submit" class="btn btn-primary"> Procced </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+            `;
+
+                    $("#ModalShow").html(modalContent);
+
+                    const modal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
+                    modal.show();
+
+                    $("#submit").click(function (e) {
+                        debugger;
+                        e.preventDefault();
+
+
+                        model = $('#loan').serialize();
+                        console.log(model);
+                        $.post("/loan", model, function (data) {
+                            debugger;
+
+                            if (data.success) {
+
+                                alert(data.message);
+                                window.location.href = "/loan";
+                            }
+                            else {
+                                alert(data.message);
+                            }
+                            //window.location.href = "home/index";
+                        });
+
+
+                    });
+                });
+
+            });
+        </script>
+    }
+</body>
+

@@ -1,0 +1,194 @@
+﻿@model BankManagement.ViewModel.FixedDepositVM
+@{
+    ViewData["Title"] = "FixedDeposit";
+    Layout = "~/Views/Shared/_MyLayoutDash.cshtml";
+}
+
+<h1>FixedDeposit</h1>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Fixed Deposit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+
+</head>
+
+<body>
+
+    <form class="form-horizontal auth-form" id="fixed-deposit">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title"></h4>
+
+                    </div><!--end card-header-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Amount To Invest</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="text" value="" id="InvestAmount" name="InvestAmount" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Period</label>
+                                    <div class="col-lg-6">
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="Period" id="Period" value="1" checked>
+                                        <label class="form-check-label" for="Period">
+                                            1 Year
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="Period" id="Period" value="5">
+                                        <label class="form-check-label" for="Period">
+                                            5 Year
+                                        </label>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Nominee Name</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="text" value="" id="NomineeName" name="NomineeName" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Nominee DOB</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" type="date" value="" id="dob" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="ModalShow">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="mb-3 row">
+                                    <div class="col-sm-10">
+                                        <button class="btn btn-primary" id="open-modal">Done</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div><!--end card-body-->
+                </div><!--end card-->
+            </div><!--end col-->
+        </div><!--end row-->
+    </form>
+
+    @section Scripts
+        {
+        <script src="~/myLib/Layout/assets/js/jquery.min.js"></script>
+        <script src="~/bms/trans/transc.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                var model = {};
+                $("#open-modal").click(function (e) { // Fixed syntax here
+                    //e.preventDefault();
+                    const InvestAmount = parseFloat($("#InvestAmount").val());
+                    const Period = $("input[name='Period']:checked").val();
+                    const NomineeName = $('#NomineeName').val();
+
+                    const modalContent = `
+                            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Related Information</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <p> Investment Amount: ${InvestAmount}</p>
+                                        <p> Investment Period: ${Period}</p>
+                                        <p> Nominee Name: ${NomineeName}</p>
+                                        
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Procede</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">OTP Verification</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="mb-3 row">
+                                            <label for="example-url-input" class="col-sm-2 form-label align-self-center mb-lg-0 text-end">Enter OTP</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" required type="number" value="" id="" name="">
+                                            </div>
+                                        </div>
+
+                                      </div>
+                                      <div class="modal-footer">
+                                                    <button id="submit" type="submit" class="btn btn-primary"> Procced </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+            `;
+
+                    $("#ModalShow").html(modalContent);
+
+                    const modal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
+                    modal.show();
+
+                    $("#submit").click(function (e) {
+                        debugger;
+                        e.preventDefault();
+
+
+                        model = $('#fixed-deposit').serialize();
+                        console.log(model);
+                        $.post("/fixed-deposit", model, function (data) {
+                            debugger;
+                            if (data.success) {
+                                alert(data.message);
+                                window.location.href = "/fixed-deposit";
+                            }
+                            else {
+                                alert(data.message);
+                            }
+                            //window.location.href = "home/index";
+                        });
+
+
+                    });
+                });
+
+            });
+        </script>
+    }
+</body>
+
+</html>

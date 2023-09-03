@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "EMI";
+    Layout = "~/Views/Shared/_MyLayoutDash.cshtml";
+}
+
+<h1>EMI</h1>
+
+    
+<form method="post">
+    <div class="form-group">
+        <label for="principalAmount">Principal Amount:</label>
+        <input type="number" step="any" class="form-control" id="principalAmount" name="principalAmount" required>
+    </div>
+
+    <div class="form-group">
+        <label for="interestRate">Interest Rate (%):</label>
+        <input type="number" step="any" class="form-control" id="interestRate" name="interestRate" required>
+    </div>
+
+    <div class="form-group">
+        <label for="loanTenure">Loan Tenure (months):</label>
+        <input type="number" step="1" class="form-control" id="loanTenure" name="loanTenure" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Calculate EMI</button>
+</form>
+
+
+<br />
+<hr />
+<br />
+<p>Monthly Payable EMI: @ViewBag.EMI</p>
+<p>Total Interest Payable: @ViewBag.TotalInterestPayable</p>
+<p>Total Payable (Principal + Interest): @ViewBag.TotalPayable</p>
